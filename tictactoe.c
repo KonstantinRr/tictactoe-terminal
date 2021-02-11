@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -13,7 +12,7 @@ struct TicTacToe {
     char player2;
 };
 
-void clearGame(struct TicTacToe *game, int startPlayer)
+void clearGame(struct TicTacToe* game, int startPlayer)
 {
     // clears the board by setting it to zero
     memset(game->board, (int)' ', 9);
@@ -24,38 +23,38 @@ void clearGame(struct TicTacToe *game, int startPlayer)
     game->player2 = 'O';
 }
 
-void switchPlayer(struct TicTacToe *game)
+void switchPlayer(struct TicTacToe* game)
 {
     game->playerTurn = !game->playerTurn;
 }
 
-void moveCursorUp(struct TicTacToe *game)
+void moveCursorUp(struct TicTacToe* game)
 {
     if (game->playerSelectionY > 0)
         game->playerSelectionY--;
 }
 
-void moveCursorDown(struct TicTacToe *game)
+void moveCursorDown(struct TicTacToe* game)
 {
     if (game->playerSelectionY < 2)
         game->playerSelectionY++;
 }
 
-void moveCursorLeft(struct TicTacToe *game)
+void moveCursorLeft(struct TicTacToe* game)
 {
     if (game->playerSelectionX > 0)
         game->playerSelectionX--;
 }
 
-void moveCursorRight(struct TicTacToe *game)
+void moveCursorRight(struct TicTacToe* game)
 {
     if (game->playerSelectionX < 2)
         game->playerSelectionX++;
 }
 
-void markField(struct TicTacToe *game)
+void markField(struct TicTacToe* game)
 {
-    char *pos = &(game->board)[game->playerSelectionX][game->playerSelectionY];
+    char* pos = &(game->board)[game->playerSelectionX][game->playerSelectionY];
     if (*pos == ' ') {
         if (game->playerTurn)
             *pos = game->player1;
@@ -65,21 +64,21 @@ void markField(struct TicTacToe *game)
     }
 }
 
-int checkWin(struct TicTacToe *game, char p)
+int checkWin(struct TicTacToe* game, char p)
 {
-    char (*b)[3] = game->board;
+    char(*b)[3] = game->board;
     return
         ((b[0][0] == p && b[0][1] == p && b[0][2] == p) || // horizontal 1
-        (b[1][0] == p && b[1][1] == p && b[1][2] == p) || // horizontal 2
-        (b[2][0] == p && b[2][1] == p && b[2][2] == p) || // horizontal 3
-        (b[0][0] == p && b[1][0] == p && b[2][0] == p) || // vertical 1
-        (b[0][1] == p && b[1][1] == p && b[2][1] == p) || // vertical 2
-        (b[0][2] == p && b[1][2] == p && b[2][2] == p) || // vertical 3
-        (b[0][0] == p && b[1][1] == p && b[2][2] == p) || // diagonal 1
-        (b[2][0] == p && b[1][1] == p && b[0][2] == p));  // diagonal 2
+            (b[1][0] == p && b[1][1] == p && b[1][2] == p) || // horizontal 2
+            (b[2][0] == p && b[2][1] == p && b[2][2] == p) || // horizontal 3
+            (b[0][0] == p && b[1][0] == p && b[2][0] == p) || // vertical 1
+            (b[0][1] == p && b[1][1] == p && b[2][1] == p) || // vertical 2
+            (b[0][2] == p && b[1][2] == p && b[2][2] == p) || // vertical 3
+            (b[0][0] == p && b[1][1] == p && b[2][2] == p) || // diagonal 1
+            (b[2][0] == p && b[1][1] == p && b[0][2] == p));  // diagonal 2
 }
 
-int checkDraw(struct TicTacToe *game)
+int checkDraw(struct TicTacToe* game)
 {
     for (int x = 0; x < 3; x++) {
         for (int y = 0; y < 3; y++)
@@ -89,24 +88,24 @@ int checkDraw(struct TicTacToe *game)
     return 1;
 }
 
-void printGame(struct TicTacToe *game)
+void printGame(struct TicTacToe* game)
 {
     // uses strings because it is UTF-8 encoded
     const char* selectionUp[3] = { " ", " ", " " };
     const char* selectionRight[3] = { " ", " ", " " };
-    selectionUp[game->playerSelectionX] = "˅";
-    selectionRight[game->playerSelectionY] = "˂";
+    selectionUp[game->playerSelectionX] = "\xCB\x85";
+    selectionRight[game->playerSelectionY] = "\xCB\x82";
 
     // Unicode that is UTF-8 encoded
     printf(
-        "  %s   %s   %s\n"
-        "┌───┬───┬───┐\n"
-        "│ %c │ %c │ %c │ %s\n"
-        "├───┼───┼───┤\n"
-        "│ %c │ %c │ %c │ %s\n"
-        "├───┼───┼───┤\n"
-        "│ %c │ %c │ %c │ %s\n"
-        "└───┴───┴───┘\n",
+        "\x20\x20\x25\x73\x20\x20\x20\x25\x73\x20\x20\x20\x25\x73\n"
+        "\xE2\x94\x8C\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\xAC\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\xAC\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\x90\n"
+        "\xE2\x94\x82\x20\x25\x63\x20\xE2\x94\x82\x20\x25\x63\x20\xE2\x94\x82\x20\x25\x63\x20\xE2\x94\x82\x20\x25\x73\n"
+        "\xE2\x94\x9C\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\xBC\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\xBC\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\xA4\n"
+        "\xE2\x94\x82\x20\x25\x63\x20\xE2\x94\x82\x20\x25\x63\x20\xE2\x94\x82\x20\x25\x63\x20\xE2\x94\x82\x20\x25\x73\n"
+        "\xE2\x94\x9C\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\xBC\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\xBC\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\xA4\n"
+        "\xE2\x94\x82\x20\x25\x63\x20\xE2\x94\x82\x20\x25\x63\x20\xE2\x94\x82\x20\x25\x63\x20\xE2\x94\x82\x20\x25\x73\n"
+        "\xE2\x94\x94\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\xB4\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\xB4\xE2\x94\x80\xE2\x94\x80\xE2\x94\x80\xE2\x94\x98\n",
         selectionUp[0], selectionUp[1], selectionUp[2],
         game->board[0][0], game->board[1][0], game->board[2][0],
         selectionRight[0],
@@ -117,10 +116,11 @@ void printGame(struct TicTacToe *game)
     );
 }
 
-int userInput(struct TicTacToe *game)
+int userInput(struct TicTacToe* game)
 {
     // Takes the next user input
     int input = getChar();
+    printf("%d\n", input);
     switch (input) {
     case EOF:
         printf("Unexpected EOF, terminating...\n");
@@ -140,7 +140,7 @@ int userInput(struct TicTacToe *game)
     case 'd': case 'l':
         moveCursorRight(game);
         break;
-    case 0x0A: // Enter key code
+    case 0x0A: case 0x0D: // Enter key code
         markField(game);
         break;
     }
@@ -149,6 +149,7 @@ int userInput(struct TicTacToe *game)
 
 int main()
 {
+    initTerminal();
     struct TicTacToe game;
     clearGame(&game, 1);
 
@@ -163,24 +164,25 @@ int main()
         );
         printGame(&game);
         printf("It is player %d turn!\n", game.playerTurn + 1);
-        
+
         // Checks for the different end conditions
         if (checkWin(&game, game.player1)) {
             printf("Player 1 won the round!\n");
-            return 0;
+            break;
         }
         if (checkWin(&game, game.player2)) {
             printf("Player 2 won the round!\n");
-            return 0;
+            break;
         }
         if (checkDraw(&game)) {
             printf("The game is a draw!\n");
-            return 0;
+            break;
         }
 
         if (!userInput(&game))
-            break; 
+            break;
     }
-
+    
+    pause();
     return 0;
 }

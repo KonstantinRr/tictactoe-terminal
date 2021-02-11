@@ -1,17 +1,19 @@
-
 #include "platform.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
-#define PLATFORM_WINDOWS defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-#define PLATFORM_UNIX __unix__
-#define PLATFORM_LINUX __linux__
+#if defined(WIN32) || defined(WIN64)
 
-#if PLATFORM_WINDOWS
-
+#include <windows.h>
 #include <conio.h> // defines _getch
 
-int getChar()
+void initTerminal()
+{
+    SetConsoleOutputCP(65001U);
+}
+
+int getChar(void)
 {
     return _getch();
 }
@@ -21,14 +23,19 @@ void clearScreen(void)
     system("cls");
 }
 
-#elif PLATFORM_UNIX || PLATFORM_LINUX
+#elif __unix__ || __linux__
 
 #include <termios.h>
 #include <stdio.h>
 
 static struct termios old, current;
 
-static void initTermios(int echo) 
+void initTerminal()
+{
+
+}
+
+static void initTermios(int echo)
 {
     tcgetattr(0, &old);
     current = old;
@@ -44,12 +51,12 @@ static void initTermios(int echo)
     tcsetattr(0, TCSANOW, &current);
 }
 
-static void resetTermios(void) 
+static void resetTermios(void)
 {
     tcsetattr(0, TCSANOW, &old);
 }
 
-static char getch_(int echo) 
+static char getch_(int echo)
 {
     char ch;
     initTermios(echo);
@@ -58,7 +65,7 @@ static char getch_(int echo)
     return ch;
 }
 
-int getChar(void) 
+int getChar(void)
 {
     return (int)getch_(0);
 }
@@ -69,3 +76,9 @@ void clearScreen(void)
 }
 
 #endif
+
+void pause(void)
+{
+    printf("Press any key to continue!\n");
+    getChar();
+}

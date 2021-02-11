@@ -1,4 +1,9 @@
+#ifndef PLATFORM_H
+#define PLATFORM_H
 
-// Defines the getch function
+void initTerminal(void);
+void pause(void);
 int getChar(void);
 void clearScreen(void);
+
+#endif
