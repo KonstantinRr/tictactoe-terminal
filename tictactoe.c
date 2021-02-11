@@ -120,7 +120,6 @@ int userInput(struct TicTacToe* game)
 {
     // Takes the next user input
     int input = getChar();
-    printf("%d\n", input);
     switch (input) {
     case EOF:
         printf("Unexpected EOF, terminating...\n");
