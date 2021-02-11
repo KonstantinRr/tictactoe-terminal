@@ -65,13 +65,6 @@ void markField(struct TicTacToe *game)
     }
 }
 
-enum GameState
-{
-    WIN,
-    DRAW,
-    CONTINUE  
-};
-
 int checkWin(struct TicTacToe *game, char p)
 {
     char (*b)[3] = game->board;
