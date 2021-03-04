@@ -1,2 +1,2 @@
 # TicTacToe Terminal
-Simple TicTacToe terminal game
+Terminal implementation of the famous TicTacToe game in C!
